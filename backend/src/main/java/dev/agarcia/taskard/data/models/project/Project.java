@@ -45,6 +45,6 @@ public class Project {
     private List<Invitation> invitations = new ArrayList<>();
 
     @Column(name = "sprint_counter")
-    private Integer sprintCounter;
+    private Integer sprintCounter = 0;
 
 }

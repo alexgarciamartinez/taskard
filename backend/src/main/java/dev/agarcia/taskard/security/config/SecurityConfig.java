@@ -37,6 +37,7 @@ public class SecurityConfig {
                                     .requestMatchers("/api/project/**").authenticated()
                                     .requestMatchers("/api/task/**").authenticated()
                                     .requestMatchers("/api/invitation/**").authenticated()
+                                    .requestMatchers("/api/sprint/**").authenticated()
                                     .anyRequest().denyAll();
                         }
                 )
