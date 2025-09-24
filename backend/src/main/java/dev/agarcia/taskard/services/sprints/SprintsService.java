@@ -12,6 +12,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class SprintsService {
 
@@ -44,7 +47,19 @@ public class SprintsService {
         } catch (Exception e) {
             return new Response(ResponseState.ERROR, "Error creating sprint: " + e.getMessage());
         }
+    }
 
+    public Response getAllSprintsByProject(Long projectId) {
+        try {
+            List<Sprint> sprints = sprintServiceDAO.findAllByProjectId(projectId);
 
+            List<GetSprintDTO> sprintsDTO = sprints.stream()
+                    .map(sprint -> modelMapper.map(sprint, GetSprintDTO.class))
+                    .collect(Collectors.toList());
+
+            return new Response(ResponseState.OK, sprintsDTO);
+        } catch (Exception e) {
+            return new Response(ResponseState.ERROR, "Error getting project's sprints => " + e.getMessage());
+        }
     }
 }
