@@ -20,12 +20,16 @@ import getUsersByProjectId from "../../../axios/project/users/GetUsersByProjectR
 import createTaskRequest from "../../../axios/project/task/CreateTaskRequest";
 import updateTaskRequest from "../../../axios/project/task/UpdateTaskRequest";
 import deleteTaskById from "../../../axios/project/task/DeleteTaskByIdRequest";
+import saveSprintRequest from "../../../axios/project/sprint/SaveSprintRequest";
+import getSprintsByProjectRequest from "../../../axios/project/sprint/GetSprintsByProjectRequest";
 
 export default function ProjectMainContainer() {
 
     const { projectId } = useParams();
 
     const [tasks, setTasks] = useState([])
+
+    const [sprints, setSprints] = useState([])
 
     const [projectUsers, setProjectUsers] = useState([])
 
@@ -38,6 +42,7 @@ export default function ProjectMainContainer() {
     useEffect(() => {
         fetchTasks()
         fetchProjectUsers()
+        fetchSprints()
     }, [])
 
     useEffect(() => {
@@ -48,10 +53,15 @@ export default function ProjectMainContainer() {
         console.log(projectUsers)
     }, [projectUsers])
 
+    useEffect(() => {
+        console.log(sprints)
+    }, [sprints])
+
     const toastMessages = {
         createdTaskSuccess: "¡Tarea creada correctamente!",
         updatedTaskSuccess: "¡Tarea actualizada correctamente!",
         deletedTaskSuccess: "¡Tarea eliminada correctamente!",
+        createdSprintSuccess: "¡Sprint creado correctamente!",
         error: "Ha ocurrido un error"
     }
 
@@ -86,6 +96,16 @@ export default function ProjectMainContainer() {
             setProjectUsers([])
         }
     }
+
+    const fetchSprints = async () => {
+        try {
+            const fetchedSprints = await getSprintsByProjectRequest(projectId)
+            setSprints(fetchedSprints)
+        } catch (error) {
+            console.log("Error fetching sprints in component => ", error)
+            setSprints([])
+        }
+    } 
 
     const handleChangeCreateTaskModal = () => {
         setCreateTaskModal(!createTaskModal)
@@ -133,6 +153,22 @@ export default function ProjectMainContainer() {
         notify(toastMessages.deletedTaskSuccess)
     }
 
+    const handleSprintSubmit = async () => {
+        const createSprint = {
+            projectId: projectId
+        }
+
+        const response = await saveSprintRequest(createSprint)
+
+        if (response != null) {
+            setSprints([...sprints, response])
+
+            notify(toastMessages.createdSprintSuccess)
+        } else {
+            notify(toastMessages.error)
+        }
+    }
+
     return (
         <div>
             <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
@@ -145,12 +181,30 @@ export default function ProjectMainContainer() {
                 />
             )}
 
+            {sprints.length > 0 && (
+                sprints.map((sprint) => (
+                    <div key={sprint.id}>
+                        <p>Sprint {sprint.sprintCounter}</p>
+                    </div>
+                ))
+            )}
+
             <div className="pt-5">
                 <ButtonComponent
                     variant={"primary"}
                     onClick={handleChangeCreateTaskModal}
                 >
                     Crear tarea
+                    <Plus className="h-4 w-4 mr-2" />
+                </ButtonComponent>
+            </div>
+
+            <div className="pt-5">
+                <ButtonComponent
+                    variant={"primary"}
+                    onClick={handleSprintSubmit}
+                >
+                    Crear sprint
                     <Plus className="h-4 w-4 mr-2" />
                 </ButtonComponent>
             </div>
