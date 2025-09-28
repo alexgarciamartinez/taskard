@@ -29,7 +29,7 @@ public class Sprint {
     @Column(name = "end_date")
     private LocalDate endDate;
 
-    @OneToMany(mappedBy = "sprint", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "sprint", cascade = CascadeType.ALL)
     private List<Task> tasks = new ArrayList<>();
 
     @Column(name = "is_started")

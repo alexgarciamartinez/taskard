@@ -22,6 +22,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public List<Task> findAllByProjectIdAndSprintIsNull(Long projectId) {
+        return this.taskRepository.findAllByProjectIdAndSprintIsNull(projectId);
+    }
+
+    @Override
     public Task findById(Long id) {
         return this.taskRepository.findById(id).orElse(null);
     }

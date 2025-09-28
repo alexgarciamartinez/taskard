@@ -1,10 +1,13 @@
 package dev.agarcia.taskard.services.task;
 
 import dev.agarcia.taskard.data.dto.task.CreateTaskDTO;
+import dev.agarcia.taskard.data.dto.task.MoveTaskToSprintDTO;
 import dev.agarcia.taskard.data.dto.task.TaskDTO;
 import dev.agarcia.taskard.data.dto.task.UpdateTaskDTO;
 import dev.agarcia.taskard.data.models.project.Project;
 import dev.agarcia.taskard.data.models.project.ProjectService;
+import dev.agarcia.taskard.data.models.sprint.Sprint;
+import dev.agarcia.taskard.data.models.sprint.SprintService;
 import dev.agarcia.taskard.data.models.task.Task;
 import dev.agarcia.taskard.data.models.task.TaskService;
 import dev.agarcia.taskard.data.models.user.User;
@@ -31,6 +34,9 @@ public class TasksService {
 
     @Autowired
     private UserService userServiceDAO;
+
+    @Autowired
+    private SprintService sprintServiceDAO;
 
     private ModelMapper modelMapper = new ModelMapper();
 
@@ -103,6 +109,50 @@ public class TasksService {
             return new Response(ResponseState.OK, tasksDTO);
         } catch (Exception e) {
             return new Response(ResponseState.ERROR, e.getMessage());
+        }
+    }
+
+    public Response getAllBacklogTasksByProject(Long projectId) {
+        try {
+            List<Task> tasks = this.taskServiceDAO.findAllByProjectIdAndSprintIsNull(projectId);
+
+            List<TaskDTO> tasksDTO = tasks.stream()
+                    .map(task -> modelMapper.map(task, TaskDTO.class))
+                    .collect(Collectors.toList());
+
+            return new Response(ResponseState.OK, tasksDTO);
+        } catch (Exception e) {
+            return new Response(ResponseState.ERROR, e.getMessage());
+        }
+    }
+
+    public Response moveTaskToSprint(MoveTaskToSprintDTO body) {
+        try {
+            Task taskToMove = this.taskServiceDAO.findById(body.getTaskId());
+
+            Sprint taskCurrentSprint = taskToMove.getSprint();
+
+            boolean movingToBacklog = body.getSprintId() == 0;
+
+            if (taskCurrentSprint != null) {
+                taskCurrentSprint.getTasks().remove(taskToMove);
+            }
+
+            if (movingToBacklog) {
+                taskToMove.setSprint(null);
+            } else {
+                Sprint destinySprint = this.sprintServiceDAO.findById(body.getSprintId());
+
+                taskToMove.setSprint(destinySprint);
+
+                destinySprint.getTasks().add(taskToMove);
+            }
+
+            taskServiceDAO.save(taskToMove);
+
+            return new Response(ResponseState.OK, "Task moved successfully");
+        } catch (Exception e) {
+            return new Response(ResponseState.ERROR, "Error moving the task to a sprint: " + e.getMessage());
         }
     }
 

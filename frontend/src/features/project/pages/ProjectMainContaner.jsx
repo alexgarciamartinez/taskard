@@ -15,13 +15,15 @@ import { Plus } from "lucide-react";
 
 import { ToastContainer, toast } from 'react-toastify';
 
-import getTasksByProject from "../../../axios/project/task/GetTasksByProjectRequest";
+//import getTasksByProject from "../../../axios/project/task/GetTasksByProjectRequest";
+import getBacklogTasksByProjectRequest from "../../../axios/project/task/GetBacklogTasksByProjectRequest";
 import getUsersByProjectId from "../../../axios/project/users/GetUsersByProjectRequest";
 import createTaskRequest from "../../../axios/project/task/CreateTaskRequest";
 import updateTaskRequest from "../../../axios/project/task/UpdateTaskRequest";
 import deleteTaskById from "../../../axios/project/task/DeleteTaskByIdRequest";
 import saveSprintRequest from "../../../axios/project/sprint/SaveSprintRequest";
 import getSprintsByProjectRequest from "../../../axios/project/sprint/GetSprintsByProjectRequest";
+import DraggableBoard from "../components/DraggableBoard";
 
 export default function ProjectMainContainer() {
 
@@ -79,7 +81,7 @@ export default function ProjectMainContainer() {
 
     const fetchTasks = async () => {
         try {
-            const fetchedTasks = await getTasksByProject(projectId)
+            const fetchedTasks = await getBacklogTasksByProjectRequest(projectId)
             setTasks(fetchedTasks || [])
         } catch (error) {
             console.log(`Error fetching tasks in component => ${error}`)
@@ -105,7 +107,7 @@ export default function ProjectMainContainer() {
             console.log("Error fetching sprints in component => ", error)
             setSprints([])
         }
-    } 
+    }
 
     const handleChangeCreateTaskModal = () => {
         setCreateTaskModal(!createTaskModal)
@@ -169,6 +171,45 @@ export default function ProjectMainContainer() {
         }
     }
 
+    const handleDragStart = (e, row, fromTable) => {
+        e.dataTransfer.setData(
+            'application/json',
+            JSON.stringify({ row, from: fromTable })
+        )
+    }
+
+    const handleDrop = (e, toTable) => {
+        e.preventDefault()
+
+        const { row, from } = JSON.parse(e.dataTransfer.getData('application/json'))
+
+        if (from === toTable) return
+
+        if (from === 0) {
+            setTasks(prev => prev.filter(t => t.id !== row.id))
+        } else {
+            setSprints(prevSprints =>
+                prevSprints.map(sprint =>
+                    sprint.id === from
+                        ? { ...sprint, tasks: sprint.tasks.filter(t => t.id !== row.id) }
+                        : sprint
+                )
+            )
+        }
+
+        if (toTable === 0) {
+            setTasks(prev => [...prev, row]);
+        } else {
+            setSprints(prevSprints =>
+                prevSprints.map(sprint =>
+                    sprint.id === toTable
+                        ? { ...sprint, tasks: [...sprint.tasks, row] }
+                        : sprint
+                )
+            )
+        }
+    }
+
     return (
         <div>
             <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
@@ -208,6 +249,14 @@ export default function ProjectMainContainer() {
                     <Plus className="h-4 w-4 mr-2" />
                 </ButtonComponent>
             </div>
+
+            <DraggableBoard 
+                tasks={tasks}
+                sprints={sprints}
+                columns={taskListColumns}
+                handleDragStart={handleDragStart}
+                handleDrop={handleDrop}
+            />
 
             {createTaskModal && (
                 /*<CreateTaskModal

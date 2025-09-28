@@ -1,6 +1,7 @@
 package dev.agarcia.taskard.controller.task;
 
 import dev.agarcia.taskard.data.dto.task.CreateTaskDTO;
+import dev.agarcia.taskard.data.dto.task.MoveTaskToSprintDTO;
 import dev.agarcia.taskard.data.dto.task.UpdateTaskDTO;
 import dev.agarcia.taskard.services.task.TasksService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,15 @@ public class TaskController {
     @GetMapping("/{projectId}/get-by-project")
     public ResponseEntity<?> getTasksByProject(@PathVariable Long projectId) {
         return this.tasksService.getAllTasksByProject(projectId).toResponseEntity();
+    }
+
+    @GetMapping("/{projectId}/get-backlog-tasks-by-project")
+    public ResponseEntity<?> getBacklogTasksByProject(@PathVariable Long projectId) {
+        return this.tasksService.getAllBacklogTasksByProject(projectId).toResponseEntity();
+    }
+
+    @PostMapping("/move-task")
+    public ResponseEntity<?> moveTaskToSprint(@RequestBody MoveTaskToSprintDTO body) {
+        return this.tasksService.moveTaskToSprint(body).toResponseEntity();
     }
 }

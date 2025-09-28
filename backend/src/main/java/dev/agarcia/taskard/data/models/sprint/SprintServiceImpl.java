@@ -20,4 +20,9 @@ public class SprintServiceImpl implements SprintService {
     public List<Sprint> findAllByProjectId(Long projectId) {
         return this.sprintRepository.findAllByProjectId(projectId);
     }
+
+    @Override
+    public Sprint findById(Long sprintId) {
+        return this.sprintRepository.findById(sprintId).orElse(null);
+    }
 }

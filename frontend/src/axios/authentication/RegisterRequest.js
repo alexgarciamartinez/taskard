@@ -1,15 +1,15 @@
-import axios from "axios"
+import axiosInstance from "../AxiosInstance";
 
 const backendUrl = "http://localhost:8080"
 
 export default async function registerRequest(body) {
     try {
-        const response = axios.post(
+        const response = await axiosInstance.post(
             `${backendUrl}/api/user/register`,
             body
         )
 
-        if (response.status === 201) {
+        if (response.data.status === "OK") {
             console.log("Valid access request!")
             return true
         }

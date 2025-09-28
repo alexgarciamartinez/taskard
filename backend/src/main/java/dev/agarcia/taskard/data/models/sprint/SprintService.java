@@ -10,4 +10,6 @@ public interface SprintService {
     void save(Sprint sprint);
 
     List<Sprint> findAllByProjectId(Long projectId);
+
+    Sprint findById(Long sprintId);
 }

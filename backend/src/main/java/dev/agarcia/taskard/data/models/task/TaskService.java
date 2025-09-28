@@ -11,6 +11,8 @@ public interface TaskService {
 
     List<Task> findAllByProject_Id(Long projectId);
 
+    List<Task> findAllByProjectIdAndSprintIsNull(Long projectId);
+
     Task findById(Long id);
 
     void deleteById(Long id);

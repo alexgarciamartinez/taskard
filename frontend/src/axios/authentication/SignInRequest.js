@@ -1,11 +1,11 @@
-import axios from "axios";
+import axiosInstance from "../AxiosInstance";
 import Cookies from "js-cookie";
 
 const backendUrl = "http://localhost:8080"
 
 export default async function signInRequest(body) {
     try {
-        const response = await axios.post(
+        const response = await axiosInstance.post(
             `${backendUrl}/api/user/sign-in`,
             body
         )
