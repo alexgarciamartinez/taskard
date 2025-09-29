@@ -1,5 +1,6 @@
 package dev.agarcia.taskard.data.dto.sprint;
 
+import dev.agarcia.taskard.data.dto.task.TaskDTO;
 import dev.agarcia.taskard.data.models.task.Task;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +18,7 @@ public class GetSprintDTO {
 
     private Integer sprintCounter;
 
-    private List<Task> tasks;
+    private List<TaskDTO> tasks;
 
     private LocalDate startDate;
 
