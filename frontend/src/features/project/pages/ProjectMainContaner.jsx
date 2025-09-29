@@ -23,6 +23,8 @@ import updateTaskRequest from "../../../axios/project/task/UpdateTaskRequest";
 import deleteTaskById from "../../../axios/project/task/DeleteTaskByIdRequest";
 import saveSprintRequest from "../../../axios/project/sprint/SaveSprintRequest";
 import getSprintsByProjectRequest from "../../../axios/project/sprint/GetSprintsByProjectRequest";
+import moveTaskToSprintRequest from "../../../axios/project/task/MoveTaskToSprintRequest";
+
 import DraggableBoard from "../components/DraggableBoard";
 
 export default function ProjectMainContainer() {
@@ -56,7 +58,7 @@ export default function ProjectMainContainer() {
     }, [projectUsers])
 
     useEffect(() => {
-        console.log(sprints)
+        console.log("SPRINTS => ", sprints)
     }, [sprints])
 
     const toastMessages = {
@@ -178,10 +180,15 @@ export default function ProjectMainContainer() {
         )
     }
 
-    const handleDrop = (e, toTable) => {
+    const handleDrop = async (e, toTable) => {
         e.preventDefault()
 
         const { row, from } = JSON.parse(e.dataTransfer.getData('application/json'))
+
+        const moveTaskDTO = {
+            taskId: row.taskId,
+            sprintId: toTable
+        }
 
         if (from === toTable) return
 
@@ -208,6 +215,8 @@ export default function ProjectMainContainer() {
                 )
             )
         }
+
+        const response = await moveTaskToSprintRequest(moveTaskDTO)
     }
 
     return (

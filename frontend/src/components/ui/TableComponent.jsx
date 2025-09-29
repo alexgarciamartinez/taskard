@@ -3,7 +3,7 @@ import React from "react";
 
 export default function TableComponent({ columns = [], rows = [], onRowClick, renderActions }) {
     return (
-        <table class="w-full table-fixed border-separate border-spacing-0 rounded-md">
+        <table className="w-full table-fixed border-separate border-spacing-0 rounded-md">
             <thead>
                 <tr className="bg-gray-100 border rounded-md">
                     {columns.map(({ key, label }) => (
@@ -14,7 +14,7 @@ export default function TableComponent({ columns = [], rows = [], onRowClick, re
                     {renderActions && <th className="px-4 py-2" />}
                 </tr>
             </thead>
-            <tbody class="bg-white">
+            <tbody className="bg-white">
                 {rows.map((item, i) => (
                     <tr key={i} 
                         className="border-b cursor-pointer hover:bg-neutral-50 transition"

@@ -11,35 +11,36 @@ export default function DraggableTableComponent({
     return (
         <table
             onDragOver={(e) => {
-                e.preventDefault();
-                onDragOver && onDragOver(e, tableId);
+                e.preventDefault()
+                onDragOver && onDragOver(e, tableId)
+                className="cursor-grab"
             }}
             onDrop={(e) => {
-                onDrop && onDrop(e, tableId);
+                onDrop && onDrop(e, tableId)
             }}
-            style={{ border: '1px solid #ccc', width: '100%', marginBottom: 40 }}
+            className="w-full table-fixed border-separate border-spacing-0 rounded-md"
         >
             <thead>
-                <tr>
+                <tr className="bg-gray-100 border rounded-md">
                     {columns.map((col) => (
-                        <th key={col.key}>{col.label}</th>
+                        <th key={col.key} className="px-4 py-1 font-semibold text-gray-600 text-left">
+                            {col.label}
+                        </th>
                     ))}
                 </tr>
             </thead>
-            <tbody>
+            <tbody className="bg-white">
                 {rows.map((row) => (
                     <tr
                         key={row.id}
                         draggable
                         onDragStart={(e) => onDragStart(e, row, tableId)}
-                        style={{
-                            cursor: 'grab',
-                            background: '#f9f9f9',
-                            borderBottom: '1px solid #eee',
-                        }}
+                        className="border-b cursor-pointer hover:bg-neutral-50 transition"
                     >
                         {columns.map((col) => (
-                            <td key={col.key}>{col.render ? col.render(row) : row[col.key]}</td>
+                            <td key={col.key} className="px-4 py-2 border-b border-gray-200 text-left">
+                                {col.render ? col.render(row) : row[col.key]}
+                            </td>
                         ))}
                     </tr>
                 ))}
