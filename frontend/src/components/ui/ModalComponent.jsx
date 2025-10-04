@@ -24,7 +24,7 @@ export default function ModalComponent({ onClose, children }) {
 
     return (
         <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 overflow-y-auto transition-opacity duration-300 ${isVisible ? "opacity-100" : "opacity-0"}`}>
-            <div className={`relative bg-white rounded-lg shadow-lg w-full sm:w-auto max-w-full max-h-full overflow-y-auto p-6 transition-transform duration-300 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}>
+            <div className={`relative bg-white rounded-lg shadow-lg w-full max-w-xl max-h-full overflow-y-auto transition-transform duration-300 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}>
 
                 <div className="absolute top-2 right-2">
                     <ButtonComponent
@@ -36,8 +36,10 @@ export default function ModalComponent({ onClose, children }) {
                     </ButtonComponent>
                 </div>
 
-                <div className="p-6 flex justify-center">
-                    {children}
+                <div className="p-6 w-full">
+                    <div className="w-full flex flex-col">
+                        {children}
+                    </div>
                 </div>
             </div>
         </div>

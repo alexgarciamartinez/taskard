@@ -70,8 +70,8 @@ export default function CreateTaskForm({ onCreate, onClose, projectUsers }) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div className="flex flex-col p-6">
+        <form onSubmit={handleSubmit} className="w-full">
+            <div className="flex flex-col p-6 w-full">
                 <p className="text-xl font-semibold text-gray-800 mb-4">Crear tarea</p>
 
                 <div className="mb-4">
@@ -85,7 +85,7 @@ export default function CreateTaskForm({ onCreate, onClose, projectUsers }) {
                     />
                 </div>
 
-                <div className="mb-4">
+                <div className="mb-4 w-full">
                     <TipTapEditor
                         value={taskForm.description}
                         onChange={(newValue) => setTaskForm((prev) => ({ ...prev, description: newValue }))}
@@ -128,12 +128,12 @@ export default function CreateTaskForm({ onCreate, onClose, projectUsers }) {
                         Crear
                     </ButtonComponent>
 
-                    <ButtonComponent
+                    {/* <ButtonComponent
                         variant={"danger"}
                         onClick={onClose}
                     >
                         <X />
-                    </ButtonComponent>
+                    </ButtonComponent> */}
                 </div>
             </div>
         </form>
