@@ -198,7 +198,7 @@ export default function ProjectMainContainer() {
             setSprints(prevSprints =>
                 prevSprints.map(sprint =>
                     sprint.id === from
-                        ? { ...sprint, tasks: sprint.tasks.filter(t => t.id !== row.id) }
+                        ? { ...sprint, tasks: sprint.tasks.filter(t => t.taskId !== row.taskId) }
                         : sprint
                 )
             )

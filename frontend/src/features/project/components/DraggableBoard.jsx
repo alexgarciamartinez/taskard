@@ -1,6 +1,12 @@
 import React from "react";
 import { useState } from "react";
+
 import DraggableTableComponent from "../../../components/ui/DraggableTableComponent";
+import ButtonComponent from "../../../components/ui/ButtonComponent";
+
+import { ChevronDown, ChevronRight } from "lucide-react";
+
+import clsx from "clsx";
 
 export default function DraggableBoard({ tasks, sprints, columns, handleDragStart, handleDrop, onRowClick }) {
 
@@ -29,41 +35,78 @@ export default function DraggableBoard({ tasks, sprints, columns, handleDragStar
     return (
         <div className="p-4">
             <div>
-                <h2
-                    className="text-xl font-semibold cursor-pointer select-none"
+                <ButtonComponent
                     onClick={toggleBacklog}
+                    variant={"outline"}
+                    className={"border-none w-full flex justify-start items-left"}
                 >
-                    {collapsed.backlog ? '▶' : '▼'} Backlog
-                </h2>
-
-                {!collapsed.backlog && (
-                    <DraggableTableComponent
-                        columns={columns}
-                        rows={tasks}
-                        onRowClick={onRowClick}
-                        tableId={0}
-                        onDragStart={handleDragStart}
-                        onDrop={handleDrop}
-                        onDragOver={() => { }}
+                    <ChevronDown
+                        className={clsx(
+                            "transition-transform duration-300",
+                            collapsed.backlog ? "rotate-[-90deg]" : "rotate-0"
+                        )}
                     />
-                )}
-            </div>
+                    Backlog
+                </ButtonComponent>
 
-            {sprints.length > 0 && (
-                sprints.map((sprint) => (
-                    <>
-                        <h2>Sprint {sprint.id}</h2>
-
+                <div
+                    className={`transition-all duration-300 ease-in-out overflow-hidden`}
+                    style={{
+                        maxHeight: collapsed.backlog ? 0 : 1000,
+                        opacity: collapsed.backlog ? 0 : 1,
+                    }}
+                >
+                    <div className="pb-6">
                         <DraggableTableComponent
                             columns={columns}
-                            rows={sprint.tasks}
+                            rows={tasks}
                             onRowClick={onRowClick}
-                            tableId={sprint.id}
+                            tableId={0}
                             onDragStart={handleDragStart}
                             onDrop={handleDrop}
                             onDragOver={() => { }}
                         />
-                    </>
+                    </div>
+                </div>
+            </div>
+
+            {sprints.length > 0 && (
+                sprints.map((sprint) => (
+                    <div key={sprint.id}>
+                        <ButtonComponent
+                            onClick={() => toggleSprint(sprint.id)}
+                            variant={"outline"}
+                            className={"border-none w-full flex justify-start items-left"}
+                        >
+                            <ChevronDown
+                                className={clsx(
+                                    "transition-transform duration-300",
+                                    collapsed.sprints[sprint.id] ? "rotate-[-90deg]" : "rotate-0"
+                                )}
+                            />
+                            Sprint {sprint.id}
+                        </ButtonComponent>
+
+                        <div
+                            className={`transition-all duration-300 ease-in-out overflow-hidden`}
+                            style={{
+                                maxHeight: collapsed.sprints[sprint.id] ? 0 : 1000,
+                                opacity: collapsed.sprints[sprint.id] ? 0 : 1,
+                            }}
+                        >
+                            <div className="pb-6">
+                                <DraggableTableComponent
+                                    columns={columns}
+                                    rows={sprint.tasks}
+                                    onRowClick={onRowClick}
+                                    tableId={sprint.id}
+                                    onDragStart={handleDragStart}
+                                    onDrop={handleDrop}
+                                    onDragOver={() => { }}
+                                />
+                            </div>
+                        </div>
+                    </div>
                 ))
             )}
         </div>

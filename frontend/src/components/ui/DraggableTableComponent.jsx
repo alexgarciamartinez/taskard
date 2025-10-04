@@ -12,35 +12,44 @@ export default function DraggableTableComponent({
     return (
         <table
             onDragOver={(e) => {
-                e.preventDefault()
-                onDragOver && onDragOver(e, tableId)
-                className="cursor-grab"
+                e.preventDefault();
+                onDragOver && onDragOver(e, tableId);
             }}
             onDrop={(e) => {
-                onDrop && onDrop(e, tableId)
+                onDrop && onDrop(e, tableId);
             }}
-            className="w-full table-fixed border-separate border-spacing-0 rounded-md"
+            className="w-full table-fixed border-collapse rounded-md"
         >
-            <thead>
-                <tr className="bg-gray-100 border rounded-md">
-                    {columns.map((col) => (
-                        <th key={col.key} className="px-4 py-1 font-semibold text-gray-600 text-left">
-                            {col.label}
-                        </th>
-                    ))}
-                </tr>
-            </thead>
             <tbody className="bg-white">
+                {rows.length === 0 && (
+                    <tr
+                        className="h-12"
+                        onDragOver={(e) => {
+                            e.preventDefault();
+                            onDragOver && onDragOver(e, tableId)
+                        }}
+                        onDrop={(e) => {
+                            e.stopPropagation()
+                            onDrop && onDrop(e, tableId)
+                        }}
+                    >
+                        <td colSpan={columns.length} className="text-center text-gray-400" />
+                    </tr>
+                )}
                 {rows.map((row) => (
                     <tr
                         key={row.id}
                         draggable
                         onDragStart={(e) => onDragStart(e, row, tableId)}
                         onClick={() => onRowClick && onRowClick(row)}
-                        className="border-b cursor-pointer hover:bg-neutral-50 transition"
+                        className="cursor-pointer hover:bg-neutral-50 transition"
                     >
-                        {columns.map((col) => (
-                            <td key={col.key} className="px-4 py-2 border-b border-gray-200 text-left">
+                        {columns.map((col, colIndex) => (
+                            <td
+                                key={col.key}
+                                className={`text-sm px-4 py-2 text-left border-t border-b border-gray-200 ${colIndex === 0 ? 'border-l' : ''
+                                    } ${colIndex === columns.length - 1 ? 'border-r' : ''}`}
+                            >
                                 {col.render ? col.render(row) : row[col.key]}
                             </td>
                         ))}
