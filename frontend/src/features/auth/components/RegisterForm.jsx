@@ -1,9 +1,13 @@
 import React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import registerRequest from "../../../axios/authentication/RegisterRequest";
 import InputFieldComponent from "../../../components/ui/InputFieldComponent";
+import ButtonComponent from "../../../components/ui/ButtonComponent";
 
 export default function RegisterForm() {
+
+    const navigate = useNavigate()
 
     const [form, setForm] = useState({
         email: "",
@@ -26,7 +30,7 @@ export default function RegisterForm() {
 
         const response = await registerRequest(form)
 
-        console.log(response ? `REGISTRADO ${form}` : "ERROR")
+        response ? navigate("/sign-in") : alert("Error al registrarse")
     }
 
     return (
@@ -72,9 +76,18 @@ export default function RegisterForm() {
                 required
             />
 
-            <button type="submit" className="w-full rounded-md text-white bg-blue-500 hover:bg-blue-600 hover:cursor-pointer p-2 transition-colors duration-200">
+            <ButtonComponent 
+                type="submit"
+            >
                 Registrarse
-            </button>
+            </ButtonComponent>
+
+            <p
+                className="text-sm self-center text-neutral-500 hover cursor-pointer"
+                onClick={() => navigate("/sign-in")}
+            >
+                Ya tienes cuenta? Inicia sesión
+            </p>
         </form>
     )
 }

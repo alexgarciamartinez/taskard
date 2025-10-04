@@ -193,7 +193,7 @@ export default function ProjectMainContainer() {
         if (from === toTable) return
 
         if (from === 0) {
-            setTasks(prev => prev.filter(t => t.id !== row.id))
+            setTasks(prev => prev.filter(t => t.taskId !== row.taskId))
         } else {
             setSprints(prevSprints =>
                 prevSprints.map(sprint =>
@@ -223,48 +223,37 @@ export default function ProjectMainContainer() {
         <div>
             <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
 
-            {tasks.length > 0 && (
-                <TableComponent
-                    columns={taskListColumns}
-                    rows={tasks}
-                    onRowClick={handleOpenEditTaskModal}
-                />
-            )}
+            <div className="flex flex-row gap-3">
+                <div className="pt-5">
+                    <ButtonComponent
+                        variant={"primary"}
+                        onClick={handleChangeCreateTaskModal}
+                        size={"sm"}
+                    >
+                        Crear tarea
+                        <Plus className="h-4 w-4 mr-2" />
+                    </ButtonComponent>
+                </div>
 
-            {sprints.length > 0 && (
-                sprints.map((sprint) => (
-                    <div key={sprint.id}>
-                        <p>Sprint {sprint.sprintCounter}</p>
-                    </div>
-                ))
-            )}
-
-            <div className="pt-5">
-                <ButtonComponent
-                    variant={"primary"}
-                    onClick={handleChangeCreateTaskModal}
-                >
-                    Crear tarea
-                    <Plus className="h-4 w-4 mr-2" />
-                </ButtonComponent>
+                <div className="pt-5">
+                    <ButtonComponent
+                        variant={"primary"}
+                        onClick={handleSprintSubmit}
+                        size={"sm"}
+                    >
+                        Crear sprint
+                        <Plus className="h-4 w-4 mr-2" />
+                    </ButtonComponent>
+                </div>
             </div>
 
-            <div className="pt-5">
-                <ButtonComponent
-                    variant={"primary"}
-                    onClick={handleSprintSubmit}
-                >
-                    Crear sprint
-                    <Plus className="h-4 w-4 mr-2" />
-                </ButtonComponent>
-            </div>
-
-            <DraggableBoard 
+            <DraggableBoard
                 tasks={tasks}
                 sprints={sprints}
                 columns={taskListColumns}
                 handleDragStart={handleDragStart}
                 handleDrop={handleDrop}
+                onRowClick={handleOpenEditTaskModal}
             />
 
             {createTaskModal && (

@@ -3,6 +3,7 @@ import React from "react";
 export default function DraggableTableComponent({
     columns,
     rows,
+    onRowClick,
     onDragStart,
     onDrop,
     onDragOver,
@@ -35,6 +36,7 @@ export default function DraggableTableComponent({
                         key={row.id}
                         draggable
                         onDragStart={(e) => onDragStart(e, row, tableId)}
+                        onClick={() => onRowClick && onRowClick(row)}
                         className="border-b cursor-pointer hover:bg-neutral-50 transition"
                     >
                         {columns.map((col) => (

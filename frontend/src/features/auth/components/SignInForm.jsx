@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import signInRequest from "../../../axios/authentication/SignInRequest";
 import InputFieldComponent from "../../../components/ui/InputFieldComponent";
+import ButtonComponent from "../../../components/ui/ButtonComponent";
 
 export default function SignInForm() {
 
@@ -38,8 +39,8 @@ export default function SignInForm() {
             onSubmit={handleSubmit}
             className="bg-white p-8 w-full max-w-sm flex flex-col space-y-4"
         >
-            <h2 className="text-2xl font-bold">Iniciar sesión</h2>
-            
+            <h2 className="text-2xl font-bold self-center">Iniciar sesión</h2>
+
             <InputFieldComponent
                 type={"text"}
                 name={"email"}
@@ -58,7 +59,18 @@ export default function SignInForm() {
                 required
             />
 
-            <button type="submit" className="w-full rounded-md text-white bg-blue-500 hover:bg-blue-600 hover:cursor-pointer p-2 transition-colors duration-200">Iniciar sesión</button>
+            <ButtonComponent
+                type="submit"
+            >
+                Iniciar sesión
+            </ButtonComponent>
+
+            <p
+                className="text-sm self-center text-neutral-500 hover cursor-pointer"
+                onClick={() => navigate("/register")}
+            >
+                No tienes cuenta? Registrate
+            </p>
         </form>
     )
 }
