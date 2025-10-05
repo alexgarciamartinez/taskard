@@ -2,6 +2,7 @@ package dev.agarcia.taskard.controller.sprint;
 
 import dev.agarcia.taskard.data.dto.sprint.CreateSprintDTO;
 import dev.agarcia.taskard.services.sprints.SprintsService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ public class SprintController {
     private SprintsService sprintsServices;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createSprint(@RequestBody CreateSprintDTO body) {
+    public ResponseEntity<?> createSprint(@RequestBody @Valid CreateSprintDTO body) {
         return this.sprintsServices.createSprint(body).toResponseEntity();
     }
 

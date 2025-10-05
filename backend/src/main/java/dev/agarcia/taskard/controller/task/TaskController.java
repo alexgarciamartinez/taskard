@@ -4,6 +4,7 @@ import dev.agarcia.taskard.data.dto.task.CreateTaskDTO;
 import dev.agarcia.taskard.data.dto.task.MoveTaskToSprintDTO;
 import dev.agarcia.taskard.data.dto.task.UpdateTaskDTO;
 import dev.agarcia.taskard.services.task.TasksService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +17,12 @@ public class TaskController {
     private TasksService tasksService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createTask(@RequestBody CreateTaskDTO body) {
+    public ResponseEntity<?> createTask(@RequestBody @Valid CreateTaskDTO body) {
         return this.tasksService.createTask(body).toResponseEntity();
     }
 
     @PostMapping("/update")
-    public ResponseEntity<?> updateTask(@RequestBody UpdateTaskDTO body) {
+    public ResponseEntity<?> updateTask(@RequestBody @Valid UpdateTaskDTO body) {
         return this.tasksService.updateTask(body).toResponseEntity();
     }
 

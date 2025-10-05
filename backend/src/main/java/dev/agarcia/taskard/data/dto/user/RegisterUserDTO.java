@@ -1,5 +1,6 @@
 package dev.agarcia.taskard.data.dto.user;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,11 +10,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RegisterUserDTO {
 
+    @NotBlank(message = "The email can't be empty")
     private String email;
 
+    @NotBlank(message = "The password can't be empty")
     private String password;
 
+    @NotBlank(message = "The repeated password can't be empty")
     private String repeatPassword;
 
+    @NotBlank(message = "The name can't be empty")
     private String name;
 }

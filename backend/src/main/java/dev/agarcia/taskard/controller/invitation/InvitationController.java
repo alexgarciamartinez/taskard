@@ -3,6 +3,7 @@ package dev.agarcia.taskard.controller.invitation;
 import dev.agarcia.taskard.data.dto.invitation.AcceptInvitationDTO;
 import dev.agarcia.taskard.data.dto.invitation.CreateInvitationDTO;
 import dev.agarcia.taskard.services.invitation.InvitationsService;
+import jakarta.validation.Valid;
 import org.aspectj.lang.annotation.DeclareWarning;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class InvitationController {
     private InvitationsService invitationsService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createInvitation(@RequestBody CreateInvitationDTO body) {
+    public ResponseEntity<?> createInvitation(@RequestBody @Valid CreateInvitationDTO body) {
         return this.invitationsService.createInvitation(body).toResponseEntity();
     }
 

@@ -5,6 +5,7 @@ import dev.agarcia.taskard.data.dto.user.SignInUserDTO;
 import dev.agarcia.taskard.services.sign_in.SignInService;
 import dev.agarcia.taskard.services.user.RegisterService;
 import dev.agarcia.taskard.services.user.UsersService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +24,12 @@ public class UserController {
     private UsersService usersServie;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerRequest(@RequestBody RegisterUserDTO rb) {
+    public ResponseEntity<?> registerRequest(@RequestBody @Valid RegisterUserDTO rb) {
         return registerService.registerUser(rb).toResponseEntity();
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity<?> signInRequest(@RequestBody SignInUserDTO body) {
+    public ResponseEntity<?> signInRequest(@RequestBody @Valid SignInUserDTO body) {
         return signInService.signIn(body).toResponseEntity();
     }
 

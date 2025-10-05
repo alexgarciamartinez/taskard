@@ -2,6 +2,7 @@ package dev.agarcia.taskard.controller.project;
 
 import dev.agarcia.taskard.data.dto.project.CreateProjectDTO;
 import dev.agarcia.taskard.services.project.ProjectsService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ public class ProjectController {
     private ProjectsService projectsService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createProject(@RequestBody CreateProjectDTO body) {
+    public ResponseEntity<?> createProject(@RequestBody @Valid CreateProjectDTO body) {
         return projectsService.createProject(body).toResponseEntity();
     }
 
