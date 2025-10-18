@@ -26,6 +26,7 @@ import getSprintsByProjectRequest from "../../../axios/project/sprint/GetSprints
 import moveTaskToSprintRequest from "../../../axios/project/task/MoveTaskToSprintRequest";
 
 import DraggableBoard from "../components/DraggableBoard";
+import EditTaskForm from "../components/EditTaskForm";
 
 export default function ProjectMainContainer() {
 
@@ -274,13 +275,24 @@ export default function ProjectMainContainer() {
             )}
 
             {editTaskModal && (
-                <EditTaskModal
+                /*<EditTaskModal
                     task={selectedTask}
                     onCreate={handleUpdateTaskSubmit}
                     onClose={handleCloseEditTaskModal}
                     onDelete={handleTaskDelete}
                     projectUsers={projectUsers}
-                />
+                />*/
+                <ModalComponent
+                    onClose={handleCloseEditTaskModal}
+                >
+                    <EditTaskForm
+                        task={selectedTask}
+                        onCreate={handleUpdateTaskSubmit}
+                        onClose={handleCloseEditTaskModal}
+                        onDelete={handleTaskDelete}
+                        projectUsers={projectUsers}
+                    />
+                </ModalComponent>
             )}
             <ToastContainer />
         </div>

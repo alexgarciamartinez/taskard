@@ -21,7 +21,7 @@ public class UpdateTaskDTO {
 
     private String description;
 
-    @NotBlank(message = "The project ID can't be empty")
+    @NotNull(message = "The project ID can't be empty")
     private Long projectId;
 
     @NotNull(message = "The assignee ID can't be empty")
