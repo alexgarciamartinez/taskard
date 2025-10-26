@@ -113,7 +113,7 @@ export default function CreateTaskForm({ onCreate, onClose, projectUsers }) {
                 <div className="mb-4">
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DatePicker
-                            label="Basic date picker"
+                            label="Fecha de entrega"
                             value={taskForm.duedate}
                             onChange={handleDateChange}
                         />

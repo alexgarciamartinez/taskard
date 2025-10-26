@@ -97,7 +97,7 @@ export default function DraggableBoard({ tasks, sprints, columns, handleDragStar
                             <div className="pb-6">
                                 <DraggableTableComponent
                                     columns={columns}
-                                    rows={sprint.tasks}
+                                    rows={sprint.tasks || []}
                                     onRowClick={onRowClick}
                                     tableId={sprint.id}
                                     onDragStart={handleDragStart}

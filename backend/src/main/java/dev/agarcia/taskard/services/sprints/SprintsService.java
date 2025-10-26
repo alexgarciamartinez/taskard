@@ -37,6 +37,8 @@ public class SprintsService {
             Sprint sprint = Sprint.builder()
                     .project(project)
                     .sprintCounter(project.getSprintCounter())
+                    .startDate(dto.getStartDate())
+                    .endDate(dto.getEndDate())
                     .build();
 
             sprintServiceDAO.save(sprint);

@@ -27,6 +27,7 @@ import moveTaskToSprintRequest from "../../../axios/project/task/MoveTaskToSprin
 
 import DraggableBoard from "../components/DraggableBoard";
 import EditTaskForm from "../components/EditTaskForm";
+import CreateSprintForm from "../components/CreateSprintForm";
 
 export default function ProjectMainContainer() {
 
@@ -43,6 +44,8 @@ export default function ProjectMainContainer() {
     const [editTaskModal, setEditTaskModal] = useState(false)
 
     const [selectedTask, setSelectedTask] = useState(null)
+
+    const [createSprintModal, setCreateSprintModal] = useState(false)
 
     useEffect(() => {
         fetchTasks()
@@ -126,6 +129,10 @@ export default function ProjectMainContainer() {
         setEditTaskModal(false)
     }
 
+    const handleChangeCreateSprintModal = () => {
+        setCreateSprintModal(!createSprintModal)
+    }
+
     const handleTaskSubmit = async (task) => {
         const response = await createTaskRequest(task)
 
@@ -158,12 +165,9 @@ export default function ProjectMainContainer() {
         notify(toastMessages.deletedTaskSuccess)
     }
 
-    const handleSprintSubmit = async () => {
-        const createSprint = {
-            projectId: projectId
-        }
+    const handleSprintSubmit = async (sprint) => {
 
-        const response = await saveSprintRequest(createSprint)
+        const response = await saveSprintRequest(sprint)
 
         if (response != null) {
             setSprints([...sprints, response])
@@ -239,7 +243,7 @@ export default function ProjectMainContainer() {
                 <div className="pt-5">
                     <ButtonComponent
                         variant={"primary"}
-                        onClick={handleSprintSubmit}
+                        onClick={handleChangeCreateSprintModal}
                         size={"sm"}
                     >
                         Crear sprint
@@ -291,6 +295,17 @@ export default function ProjectMainContainer() {
                         onClose={handleCloseEditTaskModal}
                         onDelete={handleTaskDelete}
                         projectUsers={projectUsers}
+                    />
+                </ModalComponent>
+            )}
+
+            {createSprintModal && (
+                <ModalComponent
+                    onClose={handleChangeCreateSprintModal}
+                >
+                    <CreateSprintForm 
+                        onCreate={handleSprintSubmit}
+                        onClose={handleChangeCreateSprintModal}
                     />
                 </ModalComponent>
             )}
