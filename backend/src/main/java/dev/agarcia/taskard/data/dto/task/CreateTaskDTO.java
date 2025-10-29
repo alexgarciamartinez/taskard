@@ -1,6 +1,7 @@
 package dev.agarcia.taskard.data.dto.task;
 
 import dev.agarcia.taskard.data.enums.Priority;
+import dev.agarcia.taskard.data.enums.TaskStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -30,4 +31,7 @@ public class CreateTaskDTO {
 
     @NotNull(message = "The priority can't be empty")
     private Priority priority;
+
+    @NotNull(message = "The status can't be empty")
+    private TaskStatus status;
 }

@@ -1,5 +1,6 @@
 package dev.agarcia.taskard.data.dto.task;
 
+import dev.agarcia.taskard.data.enums.TaskStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -28,4 +29,7 @@ public class UpdateTaskDTO {
     private Long assigneeId;
 
     private LocalDate duedate;
+
+    @NotNull(message = "The status can't be empty")
+    private TaskStatus status;
 }

@@ -53,6 +53,7 @@ public class TasksService {
                     .assignee(user)
                     .dueDate(dto.getDuedate())
                     .priority(dto.getPriority())
+                    .status(dto.getStatus())
                     .build();
 
             this.taskServiceDAO.save(task);
@@ -73,6 +74,7 @@ public class TasksService {
             updatedTask.setDescription(dto.getDescription());
             updatedTask.setAssignee(userServiceDAO.getById(dto.getAssigneeId()));
             updatedTask.setDueDate(dto.getDuedate());
+            updatedTask.setStatus(dto.getStatus());
 
             this.taskServiceDAO.save(updatedTask);
 

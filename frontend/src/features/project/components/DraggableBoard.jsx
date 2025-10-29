@@ -4,6 +4,8 @@ import { useState } from "react";
 import DraggableTableComponent from "../../../components/ui/DraggableTableComponent";
 import ButtonComponent from "../../../components/ui/ButtonComponent";
 
+import { format } from "date-fns";
+
 import { ChevronDown, ChevronRight } from "lucide-react";
 
 import clsx from "clsx";
@@ -30,6 +32,10 @@ export default function DraggableBoard({ tasks, sprints, columns, handleDragStar
                 [sprintId]: !prev.sprints[sprintId]
             }
         }))
+    }
+
+    const formatDate = (date) => {
+        return format(new Date(date), "d/MMM/yy")
     }
 
     return (
@@ -84,7 +90,7 @@ export default function DraggableBoard({ tasks, sprints, columns, handleDragStar
                                     collapsed.sprints[sprint.id] ? "rotate-[-90deg]" : "rotate-0"
                                 )}
                             />
-                            Sprint {sprint.id}
+                            Sprint {sprint.id} {sprint.startDate && (formatDate(sprint.startDate) + " · " + formatDate(sprint.endDate))}
                         </ButtonComponent>
 
                         <div

@@ -1,6 +1,7 @@
 package dev.agarcia.taskard.data.models.task;
 
 import dev.agarcia.taskard.data.enums.Priority;
+import dev.agarcia.taskard.data.enums.TaskStatus;
 import dev.agarcia.taskard.data.models.project.Project;
 import dev.agarcia.taskard.data.models.sprint.Sprint;
 import dev.agarcia.taskard.data.models.user.User;
@@ -47,4 +48,8 @@ public class Task {
     @Enumerated(EnumType.STRING)
     @Column(name = "priority")
     private Priority priority;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private TaskStatus status;
 }

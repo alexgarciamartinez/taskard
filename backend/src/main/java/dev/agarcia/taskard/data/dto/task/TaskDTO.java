@@ -1,5 +1,6 @@
 package dev.agarcia.taskard.data.dto.task;
 
+import dev.agarcia.taskard.data.enums.TaskStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,6 @@ public class TaskDTO {
     private GetAssigneeDTO assignee;
 
     private LocalDate duedate;
+
+    private TaskStatus status;
 }

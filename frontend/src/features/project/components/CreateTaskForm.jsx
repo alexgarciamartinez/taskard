@@ -24,7 +24,8 @@ export default function CreateTaskForm({ onCreate, onClose, projectUsers }) {
         projectId: projectId,
         assigneeId: "",
         duedate: null,
-        priority: ""
+        priority: "",
+        status: ""
     })
 
     const priorityOptions = [
@@ -32,6 +33,13 @@ export default function CreateTaskForm({ onCreate, onClose, projectUsers }) {
         { value: "HIGH", label: "Alta", color: '#ef4444' },
         { value: "MEDIUM", label: "Media", color: '#eab308' },
         { value: "LOW", label: "Baja", color: '#22c55e' }
+    ]
+
+    const statusOptions = [
+        {value: "TO_DO", label: "TO DO"},
+        {value: "IN_PROGRESS", label: "En progreso"},
+        {value: "IN_REVIEW", label: "En revisión"},
+        {value: "DONE", label: "Terminada"}
     ]
 
     const handleChange = (e) => {
@@ -107,6 +115,18 @@ export default function CreateTaskForm({ onCreate, onClose, projectUsers }) {
                         value={taskForm.priority}
                         onChange={handleChange}
                         options={priorityOptions}
+                    />
+                </div>
+
+                <div className="mb-4 flex flex-row gap-4">
+                    <SelectComponent
+                        name={"status"}
+                        value={taskForm.status}
+                        onChange={handleChange}
+                        options={statusOptions}
+                        valueKey={"value"}
+                        labelKey={"label"}
+                        placeholder={"Prioridad"}
                     />
                 </div>
 

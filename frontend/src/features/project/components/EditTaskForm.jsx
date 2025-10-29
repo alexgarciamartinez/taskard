@@ -6,9 +6,10 @@ import ButtonComponent from "../../../components/ui/ButtonComponent";
 import ModalAcceptDenyComponent from "../../../components/ui/ModalAcceptDenyComponent";
 import ViewTipTapText from "../../../components/tiptap/ViewTipTapText";
 import TipTapEditor from "../../../components/tiptap/TipTapEditor";
+import SelectComponent from "../../../components/ui/SelectComponent";
 
 import { Pencil } from "lucide-react"
-import {Trash2} from "lucide-react"
+import { Trash2 } from "lucide-react"
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -51,6 +52,13 @@ export default function EditTaskForm({ task, onCreate, onClose, onDelete, projec
         })
     }
 
+    const statusOptions = [
+        { value: "TO_DO", label: "TO DO" },
+        { value: "IN_PROGRESS", label: "En progreso" },
+        { value: "IN_REVIEW", label: "En revisión" },
+        { value: "DONE", label: "Terminada" }
+    ]
+
     const formatDateToISO = (date) => {
         if (!date) return ''
 
@@ -76,6 +84,7 @@ export default function EditTaskForm({ task, onCreate, onClose, onDelete, projec
             projectId: taskForm.projectId,
             assigneeId: taskForm.assigneeId ?? taskForm.assignee?.id,
             duedate: formattedTask.duedate,
+            status: taskForm.status
         }
 
         onCreate(cleanedTask)
@@ -150,6 +159,24 @@ export default function EditTaskForm({ task, onCreate, onClose, onDelete, projec
                             </select>
                         ) : (
                             <p className="text-xl font-semibold text-gray-800 mb-4">Asignado a: {task?.assignee?.name}</p>
+                        )}
+                    </div>
+
+                    <div className="mb-4">
+                        {isEditing ? (
+                            <SelectComponent
+                                name={"status"}
+                                value={taskForm.status}
+                                onChange={handleChange}
+                                options={statusOptions}
+                                valueKey={"value"}
+                                labelKey={"label"}
+                                placeholder={"Prioridad"}
+                            />
+                        ) : (
+                            <p className="text-xl font-semibold text-gray-800 mb-4">
+                                Estado: {statusOptions.find(opt => opt.value === taskForm.status)?.label || "Sin estado"}
+                            </p>
                         )}
                     </div>
 

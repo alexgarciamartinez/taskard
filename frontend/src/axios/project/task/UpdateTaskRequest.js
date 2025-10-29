@@ -16,6 +16,7 @@ export default async function updateTaskRequest(task) {
         }
     } catch (error) {
         console.log(`Error in the create task request => ${error.message}`)
+        console.log("Lo que has enviado al backend => ", task)
         return false
     }
 }
